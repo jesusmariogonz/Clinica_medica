@@ -188,6 +188,39 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["pagos"]["Row"]>;
         Relationships: [];
       };
+      disponibilidad_semanal: {
+        Row: {
+          id: string;
+          dia_semana: number;
+          hora_inicio: string;
+          hora_fin: string;
+          activo: boolean;
+          creado_en: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["disponibilidad_semanal"]["Row"]> & {
+          dia_semana: number;
+          hora_inicio: string;
+          hora_fin: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["disponibilidad_semanal"]["Row"]>;
+        Relationships: [];
+      };
+      bloqueos_disponibilidad: {
+        Row: {
+          id: string;
+          fecha: string;
+          hora_inicio: string | null;
+          hora_fin: string | null;
+          motivo: string | null;
+          creado_por: string | null;
+          creado_en: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["bloqueos_disponibilidad"]["Row"]> & {
+          fecha: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["bloqueos_disponibilidad"]["Row"]>;
+        Relationships: [];
+      };
       bitacora_auditoria: {
         Row: {
           id: string;

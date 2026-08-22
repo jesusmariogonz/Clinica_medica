@@ -60,7 +60,7 @@ export function Hero() {
           className="mt-9 flex flex-wrap gap-4"
         >
           <a
-            href="/servicios#reservar"
+            href="/reservar"
             className="rounded-full bg-rosa-fuerte px-7 py-3 text-sm font-medium text-white transition-colors hover:bg-rosa"
           >
             Agendar valoración

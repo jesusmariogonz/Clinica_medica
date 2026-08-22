@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { requireRole } from "@/lib/auth/rbac";
 import { signOutAction } from "@/lib/auth/actions";
 
@@ -11,9 +12,21 @@ export default async function AdminPage() {
       </span>
       <h1 className="mt-3 font-serif text-3xl text-carbon">Hola, {sesion.email}</h1>
       <p className="mt-3 text-sm text-carbon/60">
-        2FA activo. Agenda, expedientes y bitácora de auditoría se
-        construyen en los siguientes módulos.
+        2FA activo. Expedientes y bitácora de auditoría se construyen en los
+        siguientes módulos.
       </p>
+
+      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        <Link
+          href="/admin/agenda"
+          className="rounded-2xl border border-rosa-suave/50 bg-white/50 p-5 hover:border-rosa-fuerte"
+        >
+          <p className="font-serif text-lg text-carbon">Agenda</p>
+          <p className="mt-1 text-sm text-carbon/60">
+            Horario semanal, días bloqueados y próximas citas.
+          </p>
+        </Link>
+      </div>
 
       <form action={signOutAction} className="mt-8">
         <button

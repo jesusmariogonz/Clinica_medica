@@ -4,7 +4,7 @@ import type { Database } from "@/types/database.types";
 
 const RUTAS_MEDICO = ["/admin"];
 const RUTAS_ASISTENTE = ["/asistente"];
-const RUTAS_PACIENTE = ["/portal"];
+const RUTAS_PACIENTE = ["/portal", "/reservar"];
 const RUTAS_AUTH = ["/login", "/registro"];
 
 export async function updateSession(request: NextRequest) {
