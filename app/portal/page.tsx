@@ -2,6 +2,8 @@ import Link from "next/link";
 import { requireRole } from "@/lib/auth/rbac";
 import { signOutAction } from "@/lib/auth/actions";
 import { createClient } from "@/lib/supabase/server";
+import { mpHabilitado } from "@/lib/mercadopago/client";
+import { PagoAnticipoButton } from "@/components/portal/PagoAnticipoButton";
 
 export default async function PortalPage() {
   const sesion = await requireRole("paciente");
@@ -62,7 +64,10 @@ export default async function PortalPage() {
                 <div className="text-right text-xs text-carbon/50">
                   <p className="capitalize">{c.estado}</p>
                   {c.requiere_anticipo && !c.anticipo_pagado && (
-                    <p className="text-rosa-fuerte">Anticipo pendiente</p>
+                    <>
+                      <p className="text-rosa-fuerte">Anticipo pendiente</p>
+                      <PagoAnticipoButton citaId={c.id} mpDisponible={mpHabilitado()} />
+                    </>
                   )}
                 </div>
               </div>
