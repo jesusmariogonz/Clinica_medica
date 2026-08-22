@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+:root {
+  --crema: #faf6f1;
+  --arena: #f0e4da;
+  --carbon: #2e2622;
+
+  /* Variante A: rosa protagónico */
+  --a-rosa: #e8a0b4;
+  --a-rosa-suave: #f4c6d0;
+  --a-rosa-fuerte: #d9738f;
+  --a-apoyo: #b98a5e; /* dorado apagado, uso mínimo */
+
+  /* Variante B: equilibrada (rosa + salvia) */
+  --b-rosa: #eab8c4;
+  --b-rosa-suave: #f4d6dd;
+  --b-salvia: #8fa389;
+  --b-salvia-fuerte: #6f8a68;
+}
+
+@theme inline {
+  --color-crema: var(--crema);
+  --color-arena: var(--arena);
+  --color-carbon: var(--carbon);
+
+  --color-a-rosa: var(--a-rosa);
+  --color-a-rosa-suave: var(--a-rosa-suave);
+  --color-a-rosa-fuerte: var(--a-rosa-fuerte);
+  --color-a-apoyo: var(--a-apoyo);
+
+  --color-b-rosa: var(--b-rosa);
+  --color-b-rosa-suave: var(--b-rosa-suave);
+  --color-b-salvia: var(--b-salvia);
+  --color-b-salvia-fuerte: var(--b-salvia-fuerte);
+
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+}
+
+body {
+  background: var(--crema);
+  color: var(--carbon);
+}
