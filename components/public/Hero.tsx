@@ -23,17 +23,6 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-carbon/70 via-carbon/20 to-carbon/10" />
       </motion.div>
 
-      {/* nav translúcida */}
-      <header className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-6 py-6 sm:px-10">
-        <span className="font-serif text-lg italic text-white">Dra. Maggie Morales</span>
-        <nav className="hidden gap-8 rounded-full bg-white/10 px-6 py-2 text-sm text-white backdrop-blur-md sm:flex">
-          <a href="#servicios" className="hover:opacity-80">Servicios</a>
-          <a href="#quien-es" className="hover:opacity-80">La Dra.</a>
-          <a href="#galeria" className="hover:opacity-80">Galería</a>
-          <a href="#contacto" className="hover:opacity-80">Contacto</a>
-        </nav>
-      </header>
-
       <div className="relative z-10 flex h-full flex-col items-start justify-end px-6 pb-20 sm:px-10 sm:pb-28">
         <motion.span
           initial={{ opacity: 0, y: 12 }}
@@ -71,13 +60,13 @@ export function Hero() {
           className="mt-9 flex flex-wrap gap-4"
         >
           <a
-            href="#reservar"
+            href="/servicios#reservar"
             className="rounded-full bg-rosa-fuerte px-7 py-3 text-sm font-medium text-white transition-colors hover:bg-rosa"
           >
             Agendar valoración
           </a>
           <a
-            href="#servicios"
+            href="/servicios"
             className="rounded-full border border-white/40 px-7 py-3 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/10"
           >
             Ver tratamientos

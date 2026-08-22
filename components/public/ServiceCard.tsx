@@ -46,7 +46,7 @@ export function ServiceCard({
         <div className="mt-5 flex items-center justify-between">
           <span className="text-xs text-carbon/50">{duracionMinutos} min aprox.</span>
           <a
-            href="#reservar"
+            href="/servicios#reservar"
             className="flex items-center gap-1 text-sm font-medium text-rosa-fuerte transition-colors group-hover:text-rosa"
           >
             Agendar
