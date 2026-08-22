@@ -4,6 +4,8 @@ import { signOutAction } from "@/lib/auth/actions";
 import { createClient } from "@/lib/supabase/server";
 import { mpHabilitado } from "@/lib/mercadopago/client";
 import { PagoAnticipoButton } from "@/components/portal/PagoAnticipoButton";
+import { DocumentosPropios } from "@/components/portal/DocumentosPropios";
+import { ConsentimientosPendientes } from "@/components/portal/ConsentimientosPendientes";
 
 export default async function PortalPage() {
   const sesion = await requireRole("paciente");
@@ -15,14 +17,30 @@ export default async function PortalPage() {
     .eq("user_id", sesion.userId)
     .maybeSingle();
 
-  const { data: citas } = paciente
-    ? await supabase
-        .from("citas")
-        .select("id, fecha_hora, estado, requiere_anticipo, anticipo_pagado, servicios(nombre)")
-        .eq("paciente_id", paciente.id)
-        .order("fecha_hora", { ascending: false })
-        .limit(10)
-    : { data: [] };
+  const [{ data: citas }, { data: documentos }, { data: consentimientosPendientes }] = await Promise.all([
+    paciente
+      ? supabase
+          .from("citas")
+          .select("id, fecha_hora, estado, requiere_anticipo, anticipo_pagado, servicios(nombre)")
+          .eq("paciente_id", paciente.id)
+          .order("fecha_hora", { ascending: false })
+          .limit(10)
+      : Promise.resolve({ data: [] }),
+    paciente
+      ? supabase
+          .from("documentos")
+          .select("id, tipo, descripcion, subido_en")
+          .eq("paciente_id", paciente.id)
+          .order("subido_en", { ascending: false })
+      : Promise.resolve({ data: [] }),
+    paciente
+      ? supabase
+          .from("consentimientos")
+          .select("id, tipo, texto_version")
+          .eq("paciente_id", paciente.id)
+          .is("firmado_en", null)
+      : Promise.resolve({ data: [] }),
+  ]);
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-16 sm:px-10">
@@ -38,6 +56,15 @@ export default async function PortalPage() {
           Agendar nueva cita
         </Link>
       </div>
+
+      {(consentimientosPendientes ?? []).length > 0 && (
+        <section className="mt-10">
+          <h2 className="font-serif text-xl text-carbon">Consentimientos pendientes</h2>
+          <div className="mt-5">
+            <ConsentimientosPendientes consentimientos={consentimientosPendientes ?? []} />
+          </div>
+        </section>
+      )}
 
       <section className="mt-10">
         <h2 className="font-serif text-xl text-carbon">Tus citas</h2>
@@ -76,9 +103,12 @@ export default async function PortalPage() {
         </div>
       </section>
 
-      <p className="mt-10 text-sm text-carbon/60">
-        Tus documentos y consentimientos pendientes aparecerán aquí (módulo 7).
-      </p>
+      <section className="mt-10">
+        <h2 className="font-serif text-xl text-carbon">Tus documentos</h2>
+        <div className="mt-5">
+          <DocumentosPropios documentos={documentos ?? []} />
+        </div>
+      </section>
 
       <form action={signOutAction} className="mt-8">
         <button

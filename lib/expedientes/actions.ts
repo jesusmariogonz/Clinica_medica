@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { requireRole } from "@/lib/auth/rbac";
 import { createClient } from "@/lib/supabase/server";
+import { textoConsentimiento, VERSION_TEXTOS_LEGALES } from "@/lib/legal/textos";
+import type { ConsentimientoTipo } from "@/types/database.types";
 
 export interface FormState {
   error: string | null;
@@ -220,4 +222,36 @@ export async function obtenerUrlFirmadaAction(storagePath: string): Promise<stri
 
   if (error || !data) return null;
   return data.signedUrl;
+}
+
+// --- Consentimientos (el médico solicita, el paciente firma en su portal) ---
+
+export async function crearConsentimientoPendienteAction(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  await requireRole("medico");
+  const supabase = await createClient();
+
+  const pacienteId = String(formData.get("paciente_id") ?? "");
+  const tipo = String(formData.get("tipo") ?? "") as ConsentimientoTipo;
+  const textoPersonalizado = String(formData.get("texto_personalizado") ?? "") || null;
+
+  if (tipo === "procedimiento_especifico" && !textoPersonalizado?.trim()) {
+    return { error: "Describe el procedimiento para este consentimiento." };
+  }
+
+  const { error } = await supabase.from("consentimientos").insert({
+    paciente_id: pacienteId,
+    tipo,
+    texto_version:
+      tipo === "procedimiento_especifico"
+        ? `${VERSION_TEXTOS_LEGALES}: ${textoPersonalizado}`
+        : textoConsentimiento(tipo),
+  });
+
+  if (error) return { error: "No se pudo crear el consentimiento." };
+
+  revalidatePath(`/admin/pacientes/${pacienteId}`);
+  return { error: null };
 }

@@ -7,6 +7,7 @@ import { AntecedentesForm } from "@/components/admin/AntecedentesForm";
 import { NotaClinicaForm } from "@/components/admin/NotaClinicaForm";
 import { NotasTimeline } from "@/components/admin/NotasTimeline";
 import { DocumentosSection } from "@/components/admin/DocumentosSection";
+import { ConsentimientosSection } from "@/components/admin/ConsentimientosSection";
 
 export const metadata: Metadata = {
   title: "Expediente | Panel médico",
@@ -31,7 +32,7 @@ export default async function PacienteDetallePage({
 
   const expedienteId = await obtenerOCrearExpedienteAction(pacienteId);
 
-  const [{ data: expediente }, { data: notas }, { data: documentos }] = await Promise.all([
+  const [{ data: expediente }, { data: notas }, { data: documentos }, { data: consentimientos }] = await Promise.all([
     expedienteId
       ? supabase
           .from("expedientes_clinicos")
@@ -51,6 +52,11 @@ export default async function PacienteDetallePage({
       .select("id, tipo, descripcion, storage_path, subido_en")
       .eq("paciente_id", pacienteId)
       .order("subido_en", { ascending: false }),
+    supabase
+      .from("consentimientos")
+      .select("id, tipo, firmado_en")
+      .eq("paciente_id", pacienteId)
+      .order("id"),
   ]);
 
   return (
@@ -96,6 +102,16 @@ export default async function PacienteDetallePage({
         <h2 className="font-serif text-xl text-carbon">Documentos</h2>
         <div className="mt-5">
           <DocumentosSection pacienteId={pacienteId} documentos={documentos ?? []} />
+        </div>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="font-serif text-xl text-carbon">Consentimientos</h2>
+        <p className="mt-1 text-sm text-carbon/60">
+          El paciente firma desde su propio portal; aquí solo se solicitan.
+        </p>
+        <div className="mt-5">
+          <ConsentimientosSection pacienteId={pacienteId} consentimientos={consentimientos ?? []} />
         </div>
       </section>
     </div>
