@@ -12,8 +12,8 @@ export default function AvisoPrivacidadPage() {
       actualizadoLabel="Versión placeholder — PENDIENTE DE REVISIÓN LEGAL"
     >
       <p>
-        [PLACEHOLDER] Dra. Maggie Morales — Medicina Estética ("el
-        Consultorio"), con domicilio en Saltillo, Coahuila, México, es
+        [PLACEHOLDER] Dra. Maggie Morales — Medicina Estética (&ldquo;el
+        Consultorio&rdquo;), con domicilio en Saltillo, Coahuila, México, es
         responsable del tratamiento de sus datos personales, incluyendo
         datos sensibles de salud, conforme a la Ley Federal de Protección
         de Datos Personales en Posesión de los Particulares (LFPDPPP) y a
