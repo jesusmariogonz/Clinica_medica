@@ -3,28 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-type PaletteVariant = "a" | "b";
-
-interface HeroProps {
-  variant: PaletteVariant;
-}
-
-const accentClasses: Record<PaletteVariant, { btn: string; badge: string; kicker: string }> = {
-  a: {
-    btn: "bg-a-rosa-fuerte hover:bg-a-rosa text-white",
-    badge: "bg-a-rosa-suave/70 text-carbon",
-    kicker: "text-a-rosa-fuerte",
-  },
-  b: {
-    btn: "bg-b-salvia-fuerte hover:bg-b-salvia text-white",
-    badge: "bg-b-rosa-suave/70 text-carbon",
-    kicker: "text-b-salvia-fuerte",
-  },
-};
-
-export function Hero({ variant }: HeroProps) {
-  const accent = accentClasses[variant];
-
+export function Hero() {
   return (
     <section className="relative h-[92vh] min-h-[640px] w-full overflow-hidden">
       <motion.div
@@ -60,7 +39,7 @@ export function Hero({ variant }: HeroProps) {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className={`mb-4 inline-block rounded-full px-4 py-1.5 text-xs font-medium tracking-wide uppercase ${accent.badge} backdrop-blur-sm`}
+          className="mb-4 inline-block rounded-full bg-rosa-suave/70 px-4 py-1.5 text-xs font-medium tracking-wide uppercase text-carbon backdrop-blur-sm"
         >
           Medicina estética · Saltillo, Coahuila
         </motion.span>
@@ -93,7 +72,7 @@ export function Hero({ variant }: HeroProps) {
         >
           <a
             href="#reservar"
-            className={`rounded-full px-7 py-3 text-sm font-medium transition-colors ${accent.btn}`}
+            className="rounded-full bg-rosa-fuerte px-7 py-3 text-sm font-medium text-white transition-colors hover:bg-rosa"
           >
             Agendar valoración
           </a>
