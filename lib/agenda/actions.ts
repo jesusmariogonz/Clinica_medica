@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { requireRole, getSesionActual } from "@/lib/auth/rbac";
 import { calcularSlotsDisponibles } from "@/lib/agenda/slots";
+import { enviarConfirmacionCita } from "@/lib/resend/emails";
 
 export interface SlotsResult {
   slots: string[];
@@ -112,7 +113,7 @@ export async function crearCitaAction(
 
   const { data: servicio } = await supabase
     .from("servicios")
-    .select("anticipo_requerido")
+    .select("nombre, anticipo_requerido")
     .eq("id", servicioId)
     .single();
 
@@ -122,7 +123,7 @@ export async function crearCitaAction(
 
   let { data: paciente } = await supabase
     .from("pacientes")
-    .select("id")
+    .select("id, nombre")
     .eq("user_id", sesion.userId)
     .maybeSingle();
 
@@ -141,7 +142,7 @@ export async function crearCitaAction(
         telefono: telefono || null,
         email: sesion.email,
       })
-      .select("id")
+      .select("id, nombre")
       .single();
 
     if (pacienteError || !nuevoPaciente) {
@@ -163,6 +164,13 @@ export async function crearCitaAction(
   if (citaError) {
     return { error: "Ese horario ya no está disponible. Elige otro.", ok: false };
   }
+
+  await enviarConfirmacionCita(sesion.email, {
+    nombrePaciente: paciente.nombre,
+    nombreServicio: servicio.nombre,
+    fechaHora: new Date(fechaHoraISO),
+    requiereAnticipo: servicio.anticipo_requerido > 0,
+  });
 
   revalidatePath("/portal");
   return { error: null, ok: true };

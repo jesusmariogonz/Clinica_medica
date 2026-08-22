@@ -158,6 +158,7 @@ export interface Database {
           estado: CitaEstado;
           requiere_anticipo: boolean;
           anticipo_pagado: boolean;
+          recordatorio_enviado: boolean;
           creado_en: string;
           creado_por: string | null;
         };
