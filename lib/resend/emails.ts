@@ -1,4 +1,4 @@
-import { resend, FROM_EMAIL } from "@/lib/resend/client";
+import { getResend, FROM_EMAIL } from "@/lib/resend/client";
 
 interface DatosCita {
   nombrePaciente: string;
@@ -38,6 +38,12 @@ function envoltura(contenido: string): string {
 // es una confirmación de cortesía, nunca debe tumbar el flujo de reserva
 // o pago que ya se completó correctamente en la base de datos.
 async function enviarSeguro(params: { to: string; subject: string; html: string }) {
+  const resend = getResend();
+  if (!resend) {
+    console.warn("RESEND_API_KEY no configurada; se omite el envío de email.");
+    return;
+  }
+
   try {
     await resend.emails.send({ from: FROM_EMAIL, ...params });
   } catch (err) {

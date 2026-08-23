@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { stripe } from "@/lib/stripe/client";
+import { getStripe } from "@/lib/stripe/client";
 import { createServiceRoleClient } from "@/lib/supabase/server";
 
 // Webhook de Stripe: confirma pagos de anticipo y actualiza la cita.
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
 
   let event;
   try {
-    event = stripe.webhooks.constructEvent(
+    event = getStripe().webhooks.constructEvent(
       body,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET ?? ""
