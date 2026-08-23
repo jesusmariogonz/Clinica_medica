@@ -33,6 +33,7 @@ export function ServiceCard({
           fill
           sizes="(min-width: 1024px) 33vw, 100vw"
           className="object-cover transition-transform duration-700 group-hover:scale-105"
+          unoptimized
         />
         <span className="absolute top-4 left-4 rounded-full bg-rosa-suave/80 px-3 py-1 text-xs font-medium text-carbon backdrop-blur-sm">
           Desde ${precioDesde.toLocaleString("es-MX")} MXN

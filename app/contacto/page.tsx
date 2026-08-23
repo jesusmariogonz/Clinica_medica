@@ -23,20 +23,30 @@ export default function ContactoPage() {
           <div>
             <dt className="font-medium text-carbon">Ubicación</dt>
             <dd className="mt-1 text-carbon/60">
-              Saltillo, Coahuila, México — [PENDIENTE: dirección exacta del consultorio]
+              Bolivia 563, Col. Latinoamericana, C.P. 25270, Saltillo, Coahuila, México
             </dd>
           </div>
           <div>
             <dt className="font-medium text-carbon">Teléfono / WhatsApp</dt>
-            <dd className="mt-1 text-carbon/60">[PENDIENTE: número de contacto]</dd>
+            <dd className="mt-1 text-carbon/60">
+              <a href="https://wa.me/528441602304" className="hover:text-rosa-fuerte">
+                +52 844 160 2304
+              </a>
+            </dd>
           </div>
           <div>
             <dt className="font-medium text-carbon">Correo</dt>
-            <dd className="mt-1 text-carbon/60">[PENDIENTE: correo de contacto]</dd>
+            <dd className="mt-1 text-carbon/60">
+              <a href="mailto:sandramormart@gmail.com" className="hover:text-rosa-fuerte">
+                sandramormart@gmail.com
+              </a>
+            </dd>
           </div>
           <div>
             <dt className="font-medium text-carbon">Horario</dt>
-            <dd className="mt-1 text-carbon/60">[PENDIENTE: horario de atención]</dd>
+            <dd className="mt-1 text-carbon/60">
+              Lunes a viernes de 10:00 a 18:00 · Sábados de 10:00 a 14:00
+            </dd>
           </div>
         </dl>
       </div>

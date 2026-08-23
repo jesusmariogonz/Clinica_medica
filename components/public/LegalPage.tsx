@@ -7,12 +7,10 @@ interface LegalPageProps {
 export function LegalPage({ titulo, actualizadoLabel, children }: LegalPageProps) {
   return (
     <div className="mx-auto max-w-3xl px-6 py-24 sm:px-10">
-      <div className="mb-6 rounded-2xl border border-apoyo/40 bg-apoyo/10 px-5 py-4 text-sm text-carbon/80">
-        <strong>PENDIENTE DE REVISIÓN LEGAL POR ABOGADO.</strong> El texto de
-        esta página es un placeholder de referencia y no debe usarse en
-        producción hasta ser validado por un profesional del derecho
-        especializado en protección de datos de salud (LFPDPPP y NOM-004/
-        NOM-024-SSA3).
+      <div className="mb-6 rounded-2xl border border-apoyo/40 bg-apoyo/10 px-5 py-3 text-xs text-carbon/70">
+        Documento genérico funcional. Se recomienda validarlo con un abogado
+        especializado en protección de datos de salud antes de tratar casos
+        legales complejos.
       </div>
 
       <span className="text-xs font-medium tracking-wide uppercase text-rosa-fuerte">

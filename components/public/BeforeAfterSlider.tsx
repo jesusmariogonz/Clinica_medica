@@ -53,6 +53,7 @@ export function BeforeAfterSlider({ beforeUrl, afterUrl, label }: BeforeAfterSli
           fill
           sizes="(min-width: 1024px) 33vw, 100vw"
           className="pointer-events-none object-cover"
+          unoptimized
         />
 
         <div
@@ -65,6 +66,7 @@ export function BeforeAfterSlider({ beforeUrl, afterUrl, label }: BeforeAfterSli
             fill
             sizes="(min-width: 1024px) 33vw, 100vw"
             className="object-cover"
+            unoptimized
           />
         </div>
 

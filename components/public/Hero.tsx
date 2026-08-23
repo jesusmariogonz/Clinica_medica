@@ -19,6 +19,7 @@ export function Hero() {
           priority
           sizes="100vw"
           className="object-cover object-center"
+          unoptimized
         />
         <div className="absolute inset-0 bg-gradient-to-t from-carbon/70 via-carbon/20 to-carbon/10" />
       </motion.div>

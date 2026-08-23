@@ -2,9 +2,8 @@
 
 import { motion } from "framer-motion";
 
-// TODO: reemplazar por el número real de WhatsApp de la clínica (formato
-// internacional sin signos, ej. 528441234567) vía variable de entorno.
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "528440000000";
+// Se puede sobreescribir con NEXT_PUBLIC_WHATSAPP_NUMBER si el número cambia.
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "528441602304";
 const MENSAJE = encodeURIComponent(
   "Hola, me gustaría agendar una valoración con la Dra. Maggie Morales."
 );
