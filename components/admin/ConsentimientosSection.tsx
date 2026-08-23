@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import Link from "next/link";
 import { crearConsentimientoPendienteAction, type FormState } from "@/lib/expedientes/actions";
 
 interface Consentimiento {
@@ -33,15 +34,23 @@ export function ConsentimientosSection({
             className="flex items-center justify-between rounded-xl bg-white/50 px-4 py-3 text-sm"
           >
             <span className="capitalize text-carbon">{c.tipo.replace(/_/g, " ")}</span>
-            {c.firmado_en ? (
-              <span className="rounded-full bg-apoyo/20 px-3 py-0.5 text-xs font-medium text-carbon">
-                Firmado {new Date(c.firmado_en).toLocaleDateString("es-MX")}
-              </span>
-            ) : (
-              <span className="rounded-full bg-rosa-suave/40 px-3 py-0.5 text-xs font-medium text-carbon">
-                Pendiente de firma
-              </span>
-            )}
+            <div className="flex items-center gap-2">
+              {c.firmado_en ? (
+                <span className="rounded-full bg-apoyo/20 px-3 py-0.5 text-xs font-medium text-carbon">
+                  Firmado {new Date(c.firmado_en).toLocaleDateString("es-MX")}
+                </span>
+              ) : (
+                <span className="rounded-full bg-rosa-suave/40 px-3 py-0.5 text-xs font-medium text-carbon">
+                  Pendiente de firma
+                </span>
+              )}
+              <Link
+                href={`/admin/pacientes/${pacienteId}/consentimientos/${c.id}`}
+                className="text-xs font-medium text-rosa-fuerte hover:underline"
+              >
+                Ver
+              </Link>
+            </div>
           </li>
         ))}
       </ul>

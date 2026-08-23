@@ -22,7 +22,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-40 flex items-center justify-between px-6 py-4 transition-colors sm:px-10 ${
+      className={`sticky top-0 z-40 flex items-center justify-between px-6 py-4 transition-colors sm:px-10 print:hidden ${
         scrolled
           ? "bg-crema/70 shadow-sm backdrop-blur-md"
           : "bg-transparent"

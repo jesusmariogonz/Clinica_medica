@@ -19,7 +19,7 @@ export default async function PortalPage() {
     .eq("user_id", sesion.userId)
     .maybeSingle();
 
-  const [{ data: citas }, { data: documentos }, { data: consentimientosPendientes }] = await Promise.all([
+  const [{ data: citas }, { data: documentos }, { data: consentimientosPendientes }, { data: consentimientosFirmados }] = await Promise.all([
     paciente
       ? supabase
           .from("citas")
@@ -41,6 +41,14 @@ export default async function PortalPage() {
           .select("id, tipo, texto_version")
           .eq("paciente_id", paciente.id)
           .is("firmado_en", null)
+      : Promise.resolve({ data: [] }),
+    paciente
+      ? supabase
+          .from("consentimientos")
+          .select("id, tipo, firmado_en")
+          .eq("paciente_id", paciente.id)
+          .not("firmado_en", "is", null)
+          .order("firmado_en", { ascending: false })
       : Promise.resolve({ data: [] }),
   ]);
 
@@ -112,6 +120,30 @@ export default async function PortalPage() {
           <DocumentosPropios documentos={documentos ?? []} />
         </div>
       </section>
+
+      {(consentimientosFirmados ?? []).length > 0 && (
+        <section className="mt-10">
+          <h2 className="font-serif text-xl text-carbon">Tus consentimientos firmados</h2>
+          <div className="mt-5 space-y-2">
+            {(consentimientosFirmados ?? []).map((c) => (
+              <div key={c.id} className="flex items-center justify-between rounded-xl bg-white/50 px-4 py-3 text-sm">
+                <div>
+                  <p className="font-medium capitalize text-carbon">{c.tipo.replace(/_/g, " ")}</p>
+                  <p className="text-xs text-carbon/50">
+                    Firmado el {new Date(c.firmado_en!).toLocaleDateString("es-MX")}
+                  </p>
+                </div>
+                <Link
+                  href={`/portal/consentimientos/${c.id}`}
+                  className="rounded-full border border-carbon/20 px-4 py-1.5 text-xs font-medium text-carbon hover:bg-carbon/5"
+                >
+                  Ver / Descargar
+                </Link>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       <form action={signOutAction} className="mt-8">
         <button

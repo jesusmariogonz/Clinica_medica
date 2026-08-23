@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-carbon/10 bg-arena/40 px-6 py-14 sm:px-10">
+    <footer className="border-t border-carbon/10 bg-arena/40 px-6 py-14 sm:px-10 print:hidden">
       <div className="mx-auto grid max-w-6xl gap-10 sm:grid-cols-3">
         <div>
           <span className="font-serif text-lg italic text-carbon">Dra. Maggie Morales</span>
