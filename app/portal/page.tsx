@@ -53,6 +53,7 @@ export default async function PortalPage() {
         <h1 className="font-serif text-3xl text-carbon">Hola, {sesion.email}</h1>
         <Link
           href="/reservar"
+          prefetch={false}
           className="rounded-full bg-rosa-fuerte px-5 py-2 text-sm font-medium text-white hover:bg-rosa"
         >
           Agendar nueva cita
