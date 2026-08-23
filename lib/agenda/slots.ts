@@ -1,7 +1,7 @@
 // Cálculo puro de horarios disponibles — sin dependencias de Supabase para
 // poder probarlo de forma aislada.
 
-const PASO_MINUTOS = 15;
+const PASO_MINUTOS = 60;
 
 export interface RangoHorario {
   horaInicio: string; // "HH:MM" o "HH:MM:SS"
@@ -27,7 +27,7 @@ function aHHMM(minutos: number): string {
 }
 
 /**
- * Calcula los horarios de inicio disponibles (cada 15 min) para un
+ * Calcula los horarios de inicio disponibles (cada hora, en punto) para un
  * servicio de `duracionMinutos`, dado el/los rango(s) de trabajo del día,
  * las citas ya ocupadas y bloqueos puntuales.
  */

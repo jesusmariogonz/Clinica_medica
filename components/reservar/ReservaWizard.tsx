@@ -1,11 +1,12 @@
 "use client";
 
-import { useActionState, useMemo, useState } from "react";
+import { useActionState, useState } from "react";
 import {
   crearCitaAction,
   obtenerSlotsDisponiblesAction,
   type CrearCitaState,
 } from "@/lib/agenda/actions";
+import { Calendario } from "@/components/reservar/Calendario";
 
 interface Servicio {
   id: string;
@@ -23,22 +24,6 @@ interface ReservaWizardProps {
 
 const initialState: CrearCitaState = { error: null, ok: false };
 
-function proximosDias(cantidad: number): string[] {
-  const dias: string[] = [];
-  const hoy = new Date();
-  for (let i = 0; i < cantidad; i++) {
-    const d = new Date(hoy);
-    d.setDate(hoy.getDate() + i);
-    dias.push(d.toISOString().slice(0, 10));
-  }
-  return dias;
-}
-
-function formatearFecha(iso: string): string {
-  const d = new Date(`${iso}T00:00:00`);
-  return d.toLocaleDateString("es-MX", { weekday: "short", day: "numeric", month: "short" });
-}
-
 export function ReservaWizard({
   servicios,
   requierePerfilPaciente,
@@ -51,7 +36,6 @@ export function ReservaWizard({
   const [cargandoSlots, setCargandoSlots] = useState(false);
   const [state, formAction, pending] = useActionState(crearCitaAction, initialState);
 
-  const dias = useMemo(() => proximosDias(21), []);
   const servicioSeleccionado = servicios.find((s) => s.id === servicioId);
 
   const cargarSlots = (nuevaFecha: string, nuevoServicioId: string) => {
@@ -125,22 +109,7 @@ export function ReservaWizard({
 
       <div>
         <p className="mb-3 text-sm font-medium text-carbon">2. Fecha</p>
-        <div className="flex gap-2 overflow-x-auto pb-2">
-          {dias.map((d) => (
-            <button
-              key={d}
-              type="button"
-              onClick={() => elegirFecha(d)}
-              className={`shrink-0 rounded-xl border px-3 py-2 text-xs capitalize transition-colors ${
-                fecha === d
-                  ? "border-rosa-fuerte bg-rosa-suave/30 text-carbon"
-                  : "border-carbon/10 bg-white/50 text-carbon/70 hover:border-rosa-suave"
-              }`}
-            >
-              {formatearFecha(d)}
-            </button>
-          ))}
-        </div>
+        <Calendario fechaSeleccionada={fecha} onSeleccionar={elegirFecha} />
       </div>
 
       {fecha && (
