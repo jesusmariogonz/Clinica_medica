@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   title: "Expediente | Panel médico",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function PacienteDetallePage({
   params,
 }: {

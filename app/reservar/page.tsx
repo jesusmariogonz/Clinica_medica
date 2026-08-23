@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: "Agendar cita | Dra. Maggie Morales",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function ReservarPage() {
   const sesion = await requireRole("paciente");
 

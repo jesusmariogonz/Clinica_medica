@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   title: "Bitácora de auditoría | Panel médico",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function AuditoriaPage() {
   await requireRole("medico");
 

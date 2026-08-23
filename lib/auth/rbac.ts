@@ -47,6 +47,9 @@ export async function requireRole(...rolesPermitidos: UserRole[]): Promise<Sesio
   }
 
   if (!rolesPermitidos.includes(sesion.role)) {
+    console.error(
+      `[requireRole] Acceso denegado: userId=${sesion.userId} role="${sesion.role}" permitidos=${JSON.stringify(rolesPermitidos)}`
+    );
     redirect("/");
   }
 

@@ -7,6 +7,8 @@ import { PagoAnticipoButton } from "@/components/portal/PagoAnticipoButton";
 import { DocumentosPropios } from "@/components/portal/DocumentosPropios";
 import { ConsentimientosPendientes } from "@/components/portal/ConsentimientosPendientes";
 
+export const dynamic = "force-dynamic";
+
 export default async function PortalPage() {
   const sesion = await requireRole("paciente");
 

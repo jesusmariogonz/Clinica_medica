@@ -11,6 +11,15 @@ export async function createClient() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
+      // Next.js puede cachear llamadas a `fetch` hechas durante el render de
+      // Server Components. Como cada request lleva un JWT distinto en el
+      // header Authorization (que Next no considera al cachear), esto podía
+      // servir una sesión/rol de un usuario distinto al de la petición
+      // actual. Se desactiva explícitamente para todas las llamadas de este
+      // cliente.
+      global: {
+        fetch: (url, options = {}) => fetch(url, { ...options, cache: "no-store" }),
+      },
       cookies: {
         getAll() {
           return cookieStore.getAll();

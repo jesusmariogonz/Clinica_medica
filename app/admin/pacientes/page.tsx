@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   title: "Pacientes | Panel médico",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function PacientesPage() {
   await requireRole("medico");
 

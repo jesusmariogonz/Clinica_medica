@@ -2,6 +2,8 @@ import Link from "next/link";
 import { requireRole } from "@/lib/auth/rbac";
 import { signOutAction } from "@/lib/auth/actions";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminPage() {
   const sesion = await requireRole("medico");
 

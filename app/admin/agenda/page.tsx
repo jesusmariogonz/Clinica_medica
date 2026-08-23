@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   title: "Agenda | Panel médico",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminAgendaPage() {
   await requireRole("medico");
 
