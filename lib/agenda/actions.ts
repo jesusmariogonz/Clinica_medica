@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { requireRole, getSesionActual } from "@/lib/auth/rbac";
 import { calcularSlotsDisponibles } from "@/lib/agenda/slots";
-import { enviarConfirmacionCita } from "@/lib/resend/emails";
+import { enviarConfirmacionCita, enviarNotificacionNuevaCitaAlMedico } from "@/lib/resend/emails";
 
 export interface SlotsResult {
   slots: string[];
@@ -165,12 +165,17 @@ export async function crearCitaAction(
     return { error: "Ese horario ya no está disponible. Elige otro.", ok: false };
   }
 
-  await enviarConfirmacionCita(sesion.email, {
+  const datosCita = {
     nombrePaciente: paciente.nombre,
     nombreServicio: servicio.nombre,
     fechaHora: new Date(fechaHoraISO),
     requiereAnticipo: servicio.anticipo_requerido > 0,
-  });
+  };
+
+  await Promise.all([
+    enviarConfirmacionCita(sesion.email, datosCita),
+    enviarNotificacionNuevaCitaAlMedico({ ...datosCita, emailPaciente: sesion.email }),
+  ]);
 
   revalidatePath("/portal");
   return { error: null, ok: true };

@@ -8,6 +8,9 @@ interface DatosCita {
   montoAnticipo?: number;
 }
 
+// Correo de la Dra. donde recibe la notificación de cada cita nueva.
+const EMAIL_MEDICO = process.env.MEDICO_NOTIFICACION_EMAIL ?? "sandramormart@gmail.com";
+
 function formatearFechaHora(fecha: Date): string {
   return fecha.toLocaleString("es-MX", {
     weekday: "long",
@@ -68,6 +71,31 @@ export async function enviarConfirmacionCita(to: string, datos: DatosCita) {
       <p style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;">
         Hola ${datos.nombrePaciente}, confirmamos tu cita para
         <strong>${datos.nombreServicio}</strong> el
+        <strong>${formatearFechaHora(datos.fechaHora)}</strong>.
+      </p>
+      ${anticipoHtml}
+    `),
+  });
+}
+
+// Notifica a la Dra. cada vez que un paciente confirma una cita nueva.
+export async function enviarNotificacionNuevaCitaAlMedico(datos: DatosCita & { emailPaciente: string }) {
+  const anticipoHtml = datos.requiereAnticipo
+    ? `<p style="font-family:Arial,sans-serif;font-size:14px;color:#d9738f;">
+         Requiere anticipo${
+           datos.montoAnticipo ? ` de $${datos.montoAnticipo.toLocaleString("es-MX")} MXN` : ""
+         } — aún no pagado.
+       </p>`
+    : "";
+
+  await enviarSeguro({
+    to: EMAIL_MEDICO,
+    subject: `Nueva cita: ${datos.nombrePaciente} — ${formatearFechaHora(datos.fechaHora)}`,
+    html: envoltura(`
+      <h1 style="font-size:22px;margin:0 0 16px;">Nueva cita agendada</h1>
+      <p style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;">
+        <strong>${datos.nombrePaciente}</strong> (${datos.emailPaciente}) agendó
+        <strong>${datos.nombreServicio}</strong> para el
         <strong>${formatearFechaHora(datos.fechaHora)}</strong>.
       </p>
       ${anticipoHtml}
