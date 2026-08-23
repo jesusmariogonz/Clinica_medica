@@ -125,10 +125,10 @@ function MfaFlow() {
             Escanea este código QR con tu app de autenticación (Google
             Authenticator, Authy, 1Password, etc.).
           </p>
-          <div
-            className="my-6 flex justify-center rounded-2xl bg-white p-6"
-            dangerouslySetInnerHTML={{ __html: estado.qrCode }}
-          />
+          <div className="my-6 flex justify-center rounded-2xl bg-white p-6">
+            {/* eslint-disable-next-line @next/next/no-img-element -- data URI SVG de Supabase, no aplica optimización de next/image */}
+            <img src={estado.qrCode} alt="Código QR para configurar 2FA" width={200} height={200} />
+          </div>
           <p className="text-center text-xs text-carbon/40">
             ¿No puedes escanear? Ingresa esta clave manualmente:
             <br />
