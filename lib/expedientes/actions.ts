@@ -101,6 +101,7 @@ export async function actualizarAntecedentesAction(
   if (error) return { error: "No se pudieron guardar los antecedentes." };
 
   revalidatePath(`/admin/pacientes/${pacienteId}`);
+  revalidatePath(`/admin/pacientes/${pacienteId}/antecedentes`);
   return { error: null };
 }
 
@@ -134,6 +135,7 @@ export async function crearNotaClinicaAction(
   if (error) return { error: "No se pudo guardar la nota clínica." };
 
   revalidatePath(`/admin/pacientes/${pacienteId}`);
+  revalidatePath(`/admin/pacientes/${pacienteId}/notas`);
   return { error: null };
 }
 
@@ -158,6 +160,7 @@ export async function firmarNotaAction(notaId: string, pacienteId: string) {
 
   await supabase.from("notas_clinicas").update({ firmada: true }).eq("id", notaId);
   revalidatePath(`/admin/pacientes/${pacienteId}`);
+  revalidatePath(`/admin/pacientes/${pacienteId}/notas`);
 }
 
 // --- Documentos ---
@@ -254,4 +257,47 @@ export async function crearConsentimientoPendienteAction(
 
   revalidatePath(`/admin/pacientes/${pacienteId}`);
   return { error: null };
+}
+
+// --- Próxima cita sugerida ---
+
+export async function sugerirProximaCitaAction(
+  _prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  await requireRole("medico");
+  const supabase = await createClient();
+
+  const expedienteId = String(formData.get("expediente_id") ?? "");
+  const pacienteId = String(formData.get("paciente_id") ?? "");
+  const diasAdelante = Number(formData.get("dias_adelante"));
+  const nota = String(formData.get("nota") ?? "") || null;
+
+  if (!diasAdelante || diasAdelante <= 0) {
+    return { error: "Indica en cuántos días sugerir la siguiente cita." };
+  }
+
+  const fecha = new Date();
+  fecha.setDate(fecha.getDate() + diasAdelante);
+  const fechaISO = fecha.toISOString().slice(0, 10);
+
+  const { error } = await supabase
+    .from("expedientes_clinicos")
+    .update({ proxima_cita_sugerida: fechaISO, proxima_cita_nota: nota })
+    .eq("id", expedienteId);
+
+  if (error) return { error: "No se pudo guardar la sugerencia." };
+
+  revalidatePath(`/admin/pacientes/${pacienteId}`);
+  return { error: null };
+}
+
+export async function quitarSugerenciaProximaCitaAction(expedienteId: string, pacienteId: string) {
+  await requireRole("medico");
+  const supabase = await createClient();
+  await supabase
+    .from("expedientes_clinicos")
+    .update({ proxima_cita_sugerida: null, proxima_cita_nota: null })
+    .eq("id", expedienteId);
+  revalidatePath(`/admin/pacientes/${pacienteId}`);
 }

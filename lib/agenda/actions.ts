@@ -104,8 +104,14 @@ export async function crearCitaAction(
   const hora = String(formData.get("hora") ?? "");
   const nombre = String(formData.get("nombre") ?? "");
   const apellidoPaterno = String(formData.get("apellido_paterno") ?? "");
+  const apellidoMaterno = String(formData.get("apellido_materno") ?? "") || null;
   const fechaNacimiento = String(formData.get("fecha_nacimiento") ?? "");
+  const sexo = String(formData.get("sexo") ?? "") || null;
   const telefono = String(formData.get("telefono") ?? "");
+  const curp = String(formData.get("curp") ?? "").toUpperCase() || null;
+  const direccion = String(formData.get("direccion") ?? "") || null;
+  const contactoEmergenciaNombre = String(formData.get("contacto_emergencia_nombre") ?? "") || null;
+  const contactoEmergenciaTelefono = String(formData.get("contacto_emergencia_telefono") ?? "") || null;
 
   if (!servicioId || !fecha || !hora) {
     return { error: "Faltan datos de la cita.", ok: false };
@@ -138,8 +144,14 @@ export async function crearCitaAction(
         user_id: sesion.userId,
         nombre,
         apellido_paterno: apellidoPaterno,
+        apellido_materno: apellidoMaterno,
         fecha_nacimiento: fechaNacimiento,
+        sexo,
         telefono: telefono || null,
+        curp,
+        direccion,
+        contacto_emergencia_nombre: contactoEmergenciaNombre,
+        contacto_emergencia_telefono: contactoEmergenciaTelefono,
         email: sesion.email,
       })
       .select("id, nombre")
@@ -210,7 +222,7 @@ export async function agregarRangoDisponibilidadAction(
 
   if (error) return { error: "No se pudo guardar el horario." };
 
-  revalidatePath("/admin/agenda");
+  revalidatePath("/admin/agenda/configuracion");
   return { error: null };
 }
 
@@ -218,7 +230,7 @@ export async function eliminarRangoDisponibilidadAction(id: string) {
   await requireRole("medico");
   const supabase = await createClient();
   await supabase.from("disponibilidad_semanal").delete().eq("id", id);
-  revalidatePath("/admin/agenda");
+  revalidatePath("/admin/agenda/configuracion");
 }
 
 export async function agregarBloqueoAction(
@@ -241,7 +253,7 @@ export async function agregarBloqueoAction(
 
   if (error) return { error: "No se pudo guardar el bloqueo." };
 
-  revalidatePath("/admin/agenda");
+  revalidatePath("/admin/agenda/configuracion");
   return { error: null };
 }
 
@@ -249,5 +261,5 @@ export async function eliminarBloqueoAction(id: string) {
   await requireRole("medico");
   const supabase = await createClient();
   await supabase.from("bloqueos_disponibilidad").delete().eq("id", id);
-  revalidatePath("/admin/agenda");
+  revalidatePath("/admin/agenda/configuracion");
 }

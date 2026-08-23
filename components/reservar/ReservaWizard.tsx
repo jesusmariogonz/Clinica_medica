@@ -165,6 +165,14 @@ export function ReservaWizard({
               />
             </div>
             <div>
+              <label htmlFor="apellido_materno" className="text-xs text-carbon/60">Apellido materno</label>
+              <input
+                id="apellido_materno"
+                name="apellido_materno"
+                className="mt-1 w-full rounded-xl border border-carbon/10 bg-white/70 px-3 py-2 text-sm outline-none focus:border-rosa-fuerte"
+              />
+            </div>
+            <div>
               <label htmlFor="fecha_nacimiento" className="text-xs text-carbon/60">Fecha de nacimiento</label>
               <input
                 id="fecha_nacimiento"
@@ -175,10 +183,58 @@ export function ReservaWizard({
               />
             </div>
             <div>
+              <label htmlFor="sexo" className="text-xs text-carbon/60">Sexo</label>
+              <select
+                id="sexo"
+                name="sexo"
+                className="mt-1 w-full rounded-xl border border-carbon/10 bg-white/70 px-3 py-2 text-sm outline-none focus:border-rosa-fuerte"
+              >
+                <option value="">Prefiero no decir</option>
+                <option value="femenino">Femenino</option>
+                <option value="masculino">Masculino</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+            <div>
               <label htmlFor="telefono" className="text-xs text-carbon/60">Teléfono</label>
               <input
                 id="telefono"
                 name="telefono"
+                type="tel"
+                required
+                className="mt-1 w-full rounded-xl border border-carbon/10 bg-white/70 px-3 py-2 text-sm outline-none focus:border-rosa-fuerte"
+              />
+            </div>
+            <div>
+              <label htmlFor="curp" className="text-xs text-carbon/60">CURP (opcional)</label>
+              <input
+                id="curp"
+                name="curp"
+                maxLength={18}
+                className="mt-1 w-full rounded-xl border border-carbon/10 bg-white/70 px-3 py-2 text-sm uppercase outline-none focus:border-rosa-fuerte"
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label htmlFor="direccion" className="text-xs text-carbon/60">Dirección</label>
+              <input
+                id="direccion"
+                name="direccion"
+                className="mt-1 w-full rounded-xl border border-carbon/10 bg-white/70 px-3 py-2 text-sm outline-none focus:border-rosa-fuerte"
+              />
+            </div>
+            <div>
+              <label htmlFor="contacto_emergencia_nombre" className="text-xs text-carbon/60">Contacto de emergencia</label>
+              <input
+                id="contacto_emergencia_nombre"
+                name="contacto_emergencia_nombre"
+                className="mt-1 w-full rounded-xl border border-carbon/10 bg-white/70 px-3 py-2 text-sm outline-none focus:border-rosa-fuerte"
+              />
+            </div>
+            <div>
+              <label htmlFor="contacto_emergencia_telefono" className="text-xs text-carbon/60">Teléfono de emergencia</label>
+              <input
+                id="contacto_emergencia_telefono"
+                name="contacto_emergencia_telefono"
                 type="tel"
                 className="mt-1 w-full rounded-xl border border-carbon/10 bg-white/70 px-3 py-2 text-sm outline-none focus:border-rosa-fuerte"
               />

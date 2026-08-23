@@ -65,6 +65,7 @@ export function DocumentosSection({ pacienteId, documentos }: { pacienteId: stri
           >
             <option value="identificacion">Identificación</option>
             <option value="estudio">Estudio</option>
+            <option value="foto_seguimiento">Foto de seguimiento</option>
             <option value="consentimiento_firmado">Consentimiento firmado</option>
             <option value="receta">Receta</option>
             <option value="otro">Otro</option>
@@ -86,7 +87,7 @@ export function DocumentosSection({ pacienteId, documentos }: { pacienteId: stri
             name="archivo"
             type="file"
             required
-            className="mt-1 block text-sm"
+            className="mt-1 block text-sm text-carbon/70 file:mr-3 file:rounded-full file:border-0 file:bg-rosa-suave/50 file:px-4 file:py-2 file:text-xs file:font-medium file:text-carbon hover:file:bg-rosa-suave"
           />
         </div>
         <button

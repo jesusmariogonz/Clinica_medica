@@ -6,7 +6,7 @@ export type UserRole = "medico" | "asistente" | "paciente";
 export type CitaEstado = "pendiente" | "confirmada" | "cancelada" | "completada" | "no_asistio";
 export type PagoEstado = "pendiente" | "aprobado" | "rechazado" | "reembolsado";
 export type PagoMetodo = "stripe" | "mercadopago" | "efectivo";
-export type DocumentoTipo = "identificacion" | "estudio" | "consentimiento_firmado" | "receta" | "otro";
+export type DocumentoTipo = "identificacion" | "estudio" | "consentimiento_firmado" | "receta" | "foto_seguimiento" | "otro";
 export type ConsentimientoTipo = "tratamiento_general" | "aviso_privacidad" | "procedimiento_especifico";
 
 export interface Database {
@@ -63,6 +63,8 @@ export interface Database {
           antecedentes_heredofamiliares: string | null;
           antecedentes_patologicos: string | null;
           antecedentes_no_patologicos: string | null;
+          proxima_cita_sugerida: string | null;
+          proxima_cita_nota: string | null;
           creado_en: string;
           actualizado_en: string;
         };
