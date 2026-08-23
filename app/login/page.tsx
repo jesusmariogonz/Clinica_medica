@@ -19,6 +19,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const next = searchParams.get("next") ?? "/";
   const registrado = searchParams.get("registrado") === "1";
+  const actualizada = searchParams.get("actualizada") === "1";
   const [state, formAction, pending] = useActionState(signInAction, initialState);
 
   return (
@@ -31,6 +32,11 @@ function LoginForm() {
       {registrado && (
         <p className="mt-4 rounded-xl bg-apoyo/10 px-4 py-3 text-sm text-carbon/80">
           Cuenta creada. Ya puedes iniciar sesión.
+        </p>
+      )}
+      {actualizada && (
+        <p className="mt-4 rounded-xl bg-apoyo/10 px-4 py-3 text-sm text-carbon/80">
+          Contraseña actualizada. Ya puedes iniciar sesión.
         </p>
       )}
 
@@ -50,9 +56,14 @@ function LoginForm() {
           />
         </div>
         <div>
-          <label htmlFor="password" className="text-sm font-medium text-carbon">
-            Contraseña
-          </label>
+          <div className="flex items-center justify-between">
+            <label htmlFor="password" className="text-sm font-medium text-carbon">
+              Contraseña
+            </label>
+            <Link href="/recuperar-password" className="text-xs text-rosa-fuerte">
+              ¿Olvidaste tu contraseña?
+            </Link>
+          </div>
           <input
             id="password"
             name="password"
