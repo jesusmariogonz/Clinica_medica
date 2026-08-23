@@ -4,6 +4,7 @@ import { Suspense, useActionState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { signInAction, type AuthActionState } from "@/lib/auth/actions";
+import { ReenviarConfirmacion } from "@/components/public/ReenviarConfirmacion";
 
 const initialState: AuthActionState = { error: null };
 
@@ -31,7 +32,8 @@ function LoginForm() {
 
       {registrado && (
         <p className="mt-4 rounded-xl bg-apoyo/10 px-4 py-3 text-sm text-carbon/80">
-          Cuenta creada. Ya puedes iniciar sesión.
+          Cuenta creada. <strong>Revisa tu correo</strong> (incluyendo spam) y
+          confirma tu cuenta antes de iniciar sesión.
         </p>
       )}
       {actualizada && (
@@ -75,7 +77,12 @@ function LoginForm() {
         </div>
 
         {state.error && (
-          <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{state.error}</p>
+          <div className="rounded-xl bg-red-50 px-4 py-3">
+            <p className="text-sm text-red-700">{state.error}</p>
+            {state.emailNoConfirmado && (
+              <ReenviarConfirmacion email={state.emailNoConfirmado} />
+            )}
+          </div>
         )}
 
         <button

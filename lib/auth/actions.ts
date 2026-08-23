@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 
 export interface AuthActionState {
   error: string | null;
+  emailNoConfirmado?: string;
 }
 
 export async function signInAction(
@@ -23,6 +24,7 @@ export async function signInAction(
       return {
         error:
           "Debes confirmar tu correo antes de iniciar sesión. Revisa tu bandeja de entrada (y spam).",
+        emailNoConfirmado: email,
       };
     }
     return { error: "Correo o contraseña incorrectos." };
@@ -105,4 +107,16 @@ export async function signOutAction() {
   const supabase = await createClient();
   await supabase.auth.signOut();
   redirect("/login");
+}
+
+export async function reenviarConfirmacionAction(
+  _prevState: AuthActionState,
+  formData: FormData
+): Promise<AuthActionState> {
+  const email = String(formData.get("email") ?? "");
+
+  const supabase = await createClient();
+  await supabase.auth.resend({ type: "signup", email });
+
+  return { error: null };
 }
