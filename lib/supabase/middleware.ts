@@ -58,13 +58,17 @@ export async function updateSession(request: NextRequest) {
   }
 
   if (user && esRutaProtegida) {
-    const { data: perfil } = await supabase
+    const { data: perfil, error: perfilError } = await supabase
       .from("users")
       .select("role, mfa_enabled")
       .eq("id", user.id)
       .single();
 
     const role = perfil?.role;
+
+    console.error(
+      `[proxy] pathname=${pathname} userId=${user.id} role=${JSON.stringify(role)} perfilError=${perfilError?.message ?? "null"}`
+    );
 
     if (esRutaMedico && role !== "medico") {
       const url = request.nextUrl.clone();
